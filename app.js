@@ -1,4 +1,4 @@
-const API_URL = 'https://cms.kommunity.com/api/events/phpkonf-2020?with[]=speakers&with[]=sessions&with[]=days&with[]=tracks&with[]=sponsorships&with[]=photos'
+const API_URL = 'https://cms.kommunity.com/api/events/phpkonf-2021?with[]=speakers&with[]=sessions&with[]=days&with[]=tracks&with[]=sponsorships&with[]=photos'
 
 var App = new Vue({
     el: '#app',
@@ -6,6 +6,7 @@ var App = new Vue({
         days: [],
         speakers: [],
         sessions: [],
+        sponsors: [],
     },
     mounted() {
         this.getData()
@@ -13,12 +14,12 @@ var App = new Vue({
     methods: {
         getData: function () {
             axios.get(API_URL).then(response => {
-                    const { days, speakers } = response.data.data;
+                    const {days, speakers, sponsors} = response.data.data;
+                    this.speakers = speakers;
+                    this.sponsors = sponsors;
                     this.days = days
                     this.days[0].isSelected = true;
                     this.days[0].tracks[0].isSelected = true;
-                    this.speakers = speakers;
-                    
                     this.getAllSessions();
                     this.addSessionsForSpeakers();
                 }
